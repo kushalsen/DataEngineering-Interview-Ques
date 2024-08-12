@@ -1,0 +1,175 @@
+How to retrieve all the tables from schema. Schema: [bronze,silver,gold], Tables: [tab1,tab2,tab3,tab4,tab5]
+Difference between Coalace and repartition
+Difference between blob storage service and ADLS Gen2
+Difference between delta table and parquet file
+How to retrievce previous version in parquet
+What are different mount utils
+What is ACID property
+What is Surragate key
+Difference between odbc and jdbc
+--------
+Read 1 csv, 1 table from Oracle DB, read master. Do transformation - remove duplicate rows,handle null values, compare each csv with master and accordingly do the merge. and save it in azure mssql server.
+Implement a pipeline using ADF and pyspark: 
+1. Get the age of all the files from ADLS location under 'Transformed Layer'.
+2. If age is more than 25 days and less than 30 days, send email notification to user.
+3. If age is greater than 30 days, remove the file from 'Transformed Layer' and store it in 'Archieve Layer'
+4. At any stage if any stage fails, send notification to users on Teams channel
+-------
+top 5 sales from each dept in weekly basis
+- How do you find the second highest salary in a DataFrame using PySpark?
+- How do you use window functions in PySpark to calculate running totals or moving averages?
+- How do you remove duplicate rows from a DataFrame in PySpark?
+- How do you handle null values in a DataFrame while performing transformations in PySpark?
+- How do you join two large datasets in PySpark without running out of memory?
+- How do you aggregate data by multiple columns in PySpark?
+- How do you perform ETL operations to clean and transform raw data into a structured format in PySpark?
+- How do you optimize a PySpark job that is taking too long to execute?
+- How do you partition a large DataFrame by a specific column and write the partitions to different locations in PySpark?
+- How do you handle and process JSON data in PySpark?
+-------
+Write a query to get the customerName who placed the maximum orders. If more than one person placed the maximum orders, all the persons with maximum orders should be displayed?
+--------------
+Explain Agile in brief.
+Explain the difference between the traditional Waterfall model and the Agile model.
+Explain Iterative and Incremental Development in Agile.
+What Is Kanban?
+------
+Describe your leadership experiences. How do you motivate your team?
+What is the most difficult part of being a leader?
+How would you resolve a dispute between two team members?
+---------------
+spark = SparkSession.getOrCreate()
+loc = mount("/adlsLoc/folderq/folder2/team.csv")
+df = spark.getorCreateFataFrame(loc, inferSchena=True).format(csv)
+df_new = df.disstinct()
+df_new.show()
+df.select("col1").show()
+
+
+1. What is Broadcasting in spark, implement in pySpark
+-> In Spark, when performing operations like joins, if one of the datasets is small enough to fit in memory, it is more efficient to broadcast this dataset to all nodes rather than shuffling the large dataset. This helps in reducing network I/O and speeds up the computation.
+
+broadcasted_small_df = broadcast(small_df)
+result_df = large_df.join(broadcasted_small_df, "id")
+result_df.show()
+---------------------------------------------------------
+2. How does spark handle fault tolerance
+3. Why spark is preferred over MapReduce
+4. Two Scenarios where you had to do spark optimizations
+5. Significance of partitions in spark
+6. What is window function?
+7. group by vs window function which would you prefer
+8. Types of joins
+9. Other optimization techniques in spark
+10. AQE in spark
+11. pyspark code for getting the latest transaction for every user
+
+               # Define Window Specification
+window_spec = Window.partitionBy("user_id").orderBy(col("transaction_time").desc())
+               # Add Row Number based on Window Specification
+df_with_row_num = df.withColumn("row_num", row_number().over(window_spec))
+               # Filter to Get Only Latest Transactions for Each User
+latest_transactions = df_with_row_num.filter(col("row_num") == 1).drop("row_num")
+latest_transactions.show()
+---------------------------------------------------------------
+12. read a csv file in pyspark
+13. Various pyspark Dataframe operations code
+14. What is git add?
+===============================
+What is Triggers?
+What is actions and Transformation
+Delta Lakes
+Big data
+Integration Runtime
+Spark Archtecture
+How spark assign task
+=================================
+pySpark
+1. Find age which are null and fill it with the average value
+2. Delete the duplicate value.
+3. How to use python or pySpark
+4. Spark architecture
+5. How to work is divided in pySpark, can we divide the work or it is done auitomatically
+6. Normalization in SQL and BCNF
+7. When to use pySpark and when to use pySpark SQL?
+8. Trighers in ADF
+9. How to delete file from blob storage having time greater than 30 days
+10. GraphSQL
+11. Types of transformation you do in pySpark for your project
+12. How to provide access to toher people
+13. What are challenges you faced in your project while designing ADF pipelines
+14. How do you access blob stoaage from pyspark notebook
+15. How do you handle exception/failure in ADF pipelines
+16. How to send notification of failure on email in ADF
+17. Approach for the pipeleine: OnPrem DB -> OnCloud DB
+18. Parquet file system working
+19. Data partitioning
+======================================
+Query optimization
+CTE, Index
+Data Modelling
+Integration Runtime - How to know the availabilty of Self Hosted IR
+Lazy Evaluation - Transformation and Actions
+GraphSQL
+DataWarehouse
+PowerBI
+HanaDB optimization
+Joins
+========================
+How many records you will get when you join this table 
+   Inner, left, right, full. and write query for any one
+c1	c2
+1	null
+Null	1
+1	null
+Null	1
+1	null
+Null	1
+1	null
+
+Select * from T1 inner join T2 on 
+where T1.C1 = T2.C2
+
+Inner = 3
+Left = 7
+right = 7
+full = 14
+=-=======================================
+The sales table contains columns for product_id, date, and sales_amount.
+Write an SQL query to calculate the cumulative sales amount for each product over time and date.
+
+Select product_id, SUM(sales_amount) as sales_amount
+from sales
+group by product_id
+order by date desc;
+
+
+Select SUM(sales_amount over product_id) as sales_amount, 
+from sales
+order by date desc;
+==============================================================
+How do you handle the bad record in a given data frame the bad records to be dropped while read operation. 
+
+id   name  age
+1  A  1
+2  B  2
+3  C  five
+4  D  4
+=========================================================
+How do you add a new column to a DataFrame in PySpark assume your adding 3 columns.approach should be based on the optimization and why
+sd_new = spark.sql("Select a.c1,a.c2,b.c1,b.c2 from table1 a, table2 b where a.c1 = b.c1")
+
+===========*==================
+stock_id
+	
+id date closing_price
+
+
+1
+	
+6/1/2023
+	
+150
+
+
+Select date from Table where closing_price > (Select MIN(closing_price) from table where stockId = "1")
